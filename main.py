@@ -1,5 +1,6 @@
 import math
-
+import pickle
+datafile = 'big_three'
 
 class Lift:
     def __init__(self, low_reps='Epley', medium_reps='Epley', high_reps='Epley', ever_trained=0):
@@ -9,10 +10,11 @@ class Lift:
         self.ever_trained = ever_trained
 
     def __str__(self):
-        if self.ever_trained == 0:
+        return f'{self.low_reps}, {self.low_reps},{self.high_reps},{self.ever_trained}'
+        '''if self.ever_trained == 0:
             return 'The algorithm for this movement has not yet been trained'
         elif self.ever_trained == 1:
-            return f'This movement is currently being calculated using the {self.low_reps} formula for low reps, the {self.medium_reps} formula for medium reps and the {self.high_reps} formula for high reps.'
+            return f'This movement is currently being calculated using the {self.low_reps} formula for low reps, the {self.medium_reps} formula for medium reps and the {self.high_reps} formula for high reps.'''
 
     def train_algorithm(self, one_rm, weight, reps):
         epley = weight * (1 + (reps / 30))
@@ -71,6 +73,9 @@ squat = Lift()
 bench = Lift()
 deadlift = Lift()
 
+with open(datafile, 'rb') as f:
+    squat, bench, deadlift = pickle.load(f)
+
 
 command = str(input('Would you like to train your algorithm or calculate a new 1RM? t/c: ')).strip()
 while True:
@@ -92,5 +97,7 @@ while True:
         reps = int(input('How many reps did you achieve at that weight? '))
         print(f'Your estimated 1RM is {round(bench.onerm_calc(high_Rep_weight,reps),1)}')
     elif command == 'q':
+        with open(datafile, 'wb') as f:
+            pickle.dump([squat, bench, deadlift], f)
         exit()
     command = str(input('Would you like to train your algorithm, calculate a new 1RM or quit? t/c/q: ')).strip()

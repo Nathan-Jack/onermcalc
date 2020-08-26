@@ -57,20 +57,32 @@ class Lift:
         elif algo == 'Wathen':
             return (100 * weight / (48.8 + 53.8 * math.exp(-0.075 * reps)))
 
-        
+def choose_lift():
+    str(input('Which lift do you want to analyze? s/b/d: ')).strip()
+    if str == 's':
+        return squat
+    elif str == 's':
+        return bench
+    elif str == 's':
+        return deadlift
+
+
 squat = Lift()
 bench = Lift()
 deadlift = Lift()
 
+
 command = str(input('Would you like to train your algorithm or calculate a new 1RM? t/c: ')).strip()
 while True:
     if command == 't':
+        lift = choose_lift()
         one_rm = int(input('Please input your most recently tested 1RM: '))
         high_Rep_weight = int(input('How much weight did you use for a recent high rep set? '))
         reps = int(input('How many reps did you achieve at that weight? '))
         result = bench.train_algorithm(one_rm,high_Rep_weight,reps)
         print(f'The algorithm has been trained. For the lift and rep range in analysis, the model has been approximated to the {result} formula. ')
     elif command == 'c':
+        lift = choose_lift()
         high_Rep_weight = int(input('How much weight did you use for your multiple rep set? '))
         reps = int(input('How many reps did you achieve at that weight? '))
         print(f'Your estimated 1RM is {round(bench.onerm_calc(high_Rep_weight,reps),1)}')

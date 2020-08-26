@@ -58,13 +58,13 @@ class Lift:
             return (100 * weight / (48.8 + 53.8 * math.exp(-0.075 * reps)))
 
 def choose_lift():
-    str(input('Which lift do you want to analyze? s/b/d: ')).strip()
-    if str == 's':
-        return squat
-    elif str == 's':
-        return bench
-    elif str == 's':
-        return deadlift
+    lift = str(input('Which lift do you want to analyze? s/b/d: ')).strip()
+    if lift == 's':
+        return 's'
+    elif lift == 'b':
+        return 'b'
+    elif lift == 'd':
+        return 'd'
 
 
 squat = Lift()
@@ -79,7 +79,12 @@ while True:
         one_rm = int(input('Please input your most recently tested 1RM: '))
         high_Rep_weight = int(input('How much weight did you use for a recent high rep set? '))
         reps = int(input('How many reps did you achieve at that weight? '))
-        result = bench.train_algorithm(one_rm,high_Rep_weight,reps)
+        if lift == 's':
+            result = squat.train_algorithm(one_rm, high_Rep_weight, reps)
+        elif lift == 'b':
+            result = bench.train_algorithm(one_rm,high_Rep_weight,reps)
+        elif lift == 'd':
+            result = deadlift.train_algorithm(one_rm, high_Rep_weight, reps)
         print(f'The algorithm has been trained. For the lift and rep range in analysis, the model has been approximated to the {result} formula. ')
     elif command == 'c':
         lift = choose_lift()
